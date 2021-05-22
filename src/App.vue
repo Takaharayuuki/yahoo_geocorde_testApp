@@ -118,7 +118,6 @@ export default defineComponent({
       // 経度
       long: "",
     });
-
     // 入力した住所データを、緯度、軽度に変換する
     function onGetGeocode() {
       console.log("ok");
