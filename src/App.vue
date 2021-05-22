@@ -43,6 +43,12 @@
     建物名：
     <p>{{ formData.userBld }}</p>
   </div>
+
+  <div>
+    <button @click="onGoogleMapView()">
+      入力した住所のGoogleMapを表示する
+    </button>
+  </div>
   <HelloWorld msg="Get GoogleMap StreetView" />
 </template>
 
@@ -64,15 +70,26 @@ export default defineComponent({
       userBld: "",
     });
 
+    // 入力した住所データを、緯度、軽度に変換する
     function onGetGeocode() {
       console.log("ok");
     }
 
+    // googleMapの表示
+    function onGoogleMapView() {
+      console.log("Mapview: ok");
+    }
+    //googlemapStreetViewの表示
+    function onGoogleMapStreetView() {
+      console.log("streetview: ok");
+    }
     return {
       //データ
       formData,
       //関数
       onGetGeocode,
+      onGoogleMapView,
+      onGoogleMapStreetView,
     };
   },
 });
