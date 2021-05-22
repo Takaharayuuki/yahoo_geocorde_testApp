@@ -1,4 +1,7 @@
 <template>
+  <HelloWorld msg="Get GoogleMap StreetView" />
+  <p>1,住所を入力し、GetGeoCordeを押す</p>
+  <p>2,その後、それぞれの見たいマップを選択する</p>
   <form>
     <div>
       <label for="userZip">
@@ -48,6 +51,12 @@
 
   <h3>検索する場所</h3>
   <div>
+    郵便番号：
+    <span style="font-weight: bold; font-size: 16px">{{
+      formData.userZip
+    }}</span>
+  </div>
+  <div>
     都道府県：
     <span style="font-weight: bold; font-size: 16px">{{
       formData.userPref
@@ -73,14 +82,13 @@
   </div>
 
   <div>
-    <button @click="onGoogleMapView()">
+    <button @click="onGoogleMapView()" style="margin-right: 12px">
       入力した住所のGoogleMapを表示する
     </button>
     <button @click="onGoogleMapStreetView()">
       入力した住所のStreetViewを表示する
     </button>
   </div>
-  <HelloWorld msg="Get GoogleMap StreetView" />
 </template>
 
 <script>
