@@ -1,6 +1,18 @@
 <template>
   <form>
     <div>
+      <label for="userZip">
+        郵便番号：<input
+          name="userZip"
+          type="text"
+          v-model="formData.userZip"
+        />
+      </label>
+    </div>
+    <button @click.prevent.stop="onSearchAddress">
+      郵便番号から住所を検索する
+    </button>
+    <div>
       <span style="font-size: 12px; color: red">必須</span>
       <label for="userPref">
         都道府県：
@@ -77,6 +89,7 @@ import { defineComponent } from "vue";
 import { reactive } from "@vue/reactivity";
 import axios from "axios";
 import { prefectureOptions } from "./data/index";
+import api from "./api/index";
 
 export default defineComponent({
   name: "App",
@@ -85,6 +98,7 @@ export default defineComponent({
   },
   setup() {
     const formData = reactive({
+      userZip: "",
       userPref: "",
       userAddr: "",
       userAddr2: "",
@@ -154,6 +168,18 @@ export default defineComponent({
         "_blank"
       );
     }
+    /* 郵便番号から住所を自動入力 */
+    function onSearchAddress() {
+      console.log("ok");
+      api.external
+        .zipcloud(formData.userZip)
+        .then((data) => {
+          console.log(data);
+          formData.userPref = data.address1;
+          formData.userAddr = data.address2 + data.address3;
+        })
+        .catch((error) => alert(error));
+    }
     return {
       //データ
       formData,
@@ -164,6 +190,7 @@ export default defineComponent({
       onGetGeocode,
       onGoogleMapView,
       onGoogleMapStreetView,
+      onSearchAddress,
     };
   },
 });
