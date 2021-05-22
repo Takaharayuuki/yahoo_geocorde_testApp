@@ -4,7 +4,11 @@
       <span style="font-size: 12px; color: red">必須</span>
       <label for="userPref">
         都道府県：
-        <input name="userPref" type="text" v-model="formData.userPref" />
+        <select v-model="formData.userPref">
+          <option v-for="pref in prefectureOptions" :key="pref.id">
+            {{ pref.value }}
+          </option>
+        </select>
       </label>
     </div>
     <div>
@@ -72,6 +76,7 @@ import HelloWorld from "./components/HelloWorld.vue";
 import { defineComponent } from "vue";
 import { reactive } from "@vue/reactivity";
 import axios from "axios";
+import { prefectureOptions } from "./data/index";
 
 export default defineComponent({
   name: "App",
@@ -154,6 +159,7 @@ export default defineComponent({
       formData,
       apiData,
       getData,
+      prefectureOptions,
       //関数
       onGetGeocode,
       onGoogleMapView,
