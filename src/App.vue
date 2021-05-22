@@ -6,7 +6,7 @@
     <div>
       <span style="font-size: 12px; color: red">必須</span>
       <label for="userZip">
-        郵便番号：<input
+        郵便番号(ハイフン無し)：<input
           name="userZip"
           type="text"
           v-model="formData.userZip"
