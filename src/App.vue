@@ -4,6 +4,7 @@
   <p>2,その後、それぞれの見たいマップを選択する</p>
   <form>
     <div>
+      <span style="font-size: 12px; color: red">必須</span>
       <label for="userZip">
         郵便番号：<input
           name="userZip"
@@ -47,7 +48,10 @@
       </label>
     </div>
   </form>
-  <button @click="onGetGeocode">GetGeoCode</button>
+  <div>
+    <button @click="onGetGeocode">GetGeoCode</button>
+    <h3 v-if="!isGet" style="color: red">OK!</h3>
+  </div>
 
   <h3>検索する場所</h3>
   <div>
@@ -82,10 +86,14 @@
   </div>
 
   <div>
-    <button @click="onGoogleMapView()" style="margin-right: 12px">
+    <button
+      :disabled="isGet"
+      @click="onGoogleMapView()"
+      style="margin-right: 12px"
+    >
       入力した住所のGoogleMapを表示する
     </button>
-    <button @click="onGoogleMapStreetView()">
+    <button :disabled="isGet" @click="onGoogleMapStreetView()">
       入力した住所のStreetViewを表示する
     </button>
   </div>
@@ -93,7 +101,7 @@
 
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { reactive } from "@vue/reactivity";
 import axios from "axios";
 import { prefectureOptions } from "./data/index";
@@ -113,6 +121,8 @@ export default defineComponent({
       userBld: "",
     });
 
+    const isGet = ref(true);
+
     const apiData = reactive({
       apiKey: process.env.VUE_APP_API_KEY,
       url:
@@ -128,29 +138,38 @@ export default defineComponent({
     });
     // 入力した住所データを、緯度、軽度に変換する
     function onGetGeocode() {
-      console.log("ok");
-      const request = {
-        query:
-          formData.userPref +
-          formData.userAddr +
-          formData.userAddr2 +
-          formData.userBld,
-      };
-      console.log(request);
-      const setUrl = apiData.url + apiData.apiKey + "&query=" + request.query;
-      console.log(setUrl);
-      axios
-        .get(setUrl)
-        .then((response) => {
-          const res = response.data.Feature[0].Geometry.Coordinates;
-          let resultArray = res.split(",");
-          console.log(resultArray);
-          getData.set = resultArray;
-          console.log(getData.set);
-          getData.long = getData.set[0];
-          getData.lat = getData.set[1];
-        })
-        .catch((err) => console.log(err));
+      if (
+        formData.userZip !== "" &&
+        formData.userPref !== "" &&
+        formData.userAddr !== "" &&
+        formData.userAddr2 !== ""
+      ) {
+        const request = {
+          query:
+            formData.userPref +
+            formData.userAddr +
+            formData.userAddr2 +
+            formData.userBld,
+        };
+        console.log(request);
+        const setUrl = apiData.url + apiData.apiKey + "&query=" + request.query;
+        console.log(setUrl);
+        axios
+          .get(setUrl)
+          .then((response) => {
+            isGet.value = false;
+            const res = response.data.Feature[0].Geometry.Coordinates;
+            let resultArray = res.split(",");
+            console.log(resultArray);
+            getData.set = resultArray;
+            console.log(getData.set);
+            getData.long = getData.set[0];
+            getData.lat = getData.set[1];
+          })
+          .catch((err) => console.log(err));
+      } else {
+        alert("必須項目を入力してください");
+      }
     }
     // googleMapの表示
     function onGoogleMapView() {
@@ -188,6 +207,8 @@ export default defineComponent({
         .catch((error) => alert(error));
     }
     return {
+      //フラグ
+      isGet,
       //データ
       formData,
       apiData,
