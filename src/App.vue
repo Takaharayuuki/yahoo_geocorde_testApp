@@ -1,17 +1,43 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <form action="">
+    <div>
+      <label for="userPref">
+        都道府県：
+        <input name="userPref" type="text" v-model="userPref" />
+      </label>
+    </div>
+    <div>
+      <label for="userAddr">
+        市・区・町村：
+        <input name="userAddr" type="text" v-model="userAddr" />
+      </label>
+    </div>
+    <div>
+      <label for="userAddr2">
+        番地：
+        <input name="userAddr2" type="text" v-model="userAddr2" />
+      </label>
+    </div>
+    <div>
+      <label for="userBld">
+        建物名：
+        <input name="userBld" type="text" v-model="userBld" />
+      </label>
+    </div>
+  </form>
+  <button @click="onGeocode">GetGeoCode</button>
+  <HelloWorld msg="Welcome to Your Vue.js App" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from "./components/HelloWorld.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    HelloWorld,
+  },
+};
 </script>
 
 <style>
