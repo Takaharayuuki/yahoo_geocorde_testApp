@@ -1,18 +1,21 @@
 <template>
   <form>
     <div>
+      <span style="font-size: 12px; color: red">必須</span>
       <label for="userPref">
         都道府県：
         <input name="userPref" type="text" v-model="formData.userPref" />
       </label>
     </div>
     <div>
+      <span style="font-size: 12px; color: red">必須</span>
       <label for="userAddr">
         市・区・町村：
         <input name="userAddr" type="text" v-model="formData.userAddr" />
       </label>
     </div>
     <div>
+      <span style="font-size: 12px; color: red">必須</span>
       <label for="userAddr2">
         番地：
         <input name="userAddr2" type="text" v-model="formData.userAddr2" />
@@ -27,21 +30,30 @@
   </form>
   <button @click="onGetGeocode">GetGeoCode</button>
 
+  <h3>検索する場所</h3>
   <div>
     都道府県：
-    <p>{{ formData.userPref }}</p>
+    <span style="font-weight: bold; font-size: 16px">{{
+      formData.userPref
+    }}</span>
   </div>
   <div>
     市・区・町村：
-    <p>{{ formData.userAddr }}</p>
+    <span style="font-weight: bold; font-size: 16px">{{
+      formData.userAddr
+    }}</span>
   </div>
   <div>
     番地：
-    <p>{{ formData.userAddr2 }}</p>
+    <span style="font-weight: bold; font-size: 16px">{{
+      formData.userAddr2
+    }}</span>
   </div>
   <div>
     建物名：
-    <p>{{ formData.userBld }}</p>
+    <span style="font-weight: bold; font-size: 16px">{{
+      formData.userBld
+    }}</span>
   </div>
 
   <div>
@@ -70,14 +82,28 @@ export default defineComponent({
       userBld: "",
     });
 
+    const apiData = reactive({
+      apiKey: "",
+      url:
+        "https://map.yahooapis.jp/geocode/V1/geoCoder?output=json&recursive=true&appid=",
+    });
+
     // 入力した住所データを、緯度、軽度に変換する
     function onGetGeocode() {
       console.log("ok");
     }
-
     // googleMapの表示
     function onGoogleMapView() {
       console.log("Mapview: ok");
+      window.open(
+        `https://www.google.com/maps/search/?api=1&query=${
+          formData.userPref +
+          formData.userAddr +
+          formData.userAddr2 +
+          formData.userBld
+        }`,
+        "_blank"
+      );
     }
     //googlemapStreetViewの表示
     function onGoogleMapStreetView() {
