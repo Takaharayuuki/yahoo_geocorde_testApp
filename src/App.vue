@@ -83,7 +83,7 @@ export default defineComponent({
     });
 
     const apiData = reactive({
-      apiKey: "",
+      apiKey: process.env.VUE_APP_API_KEY,
       url:
         "https://map.yahooapis.jp/geocode/V1/geoCoder?output=json&recursive=true&appid=",
     });
@@ -91,6 +91,16 @@ export default defineComponent({
     // 入力した住所データを、緯度、軽度に変換する
     function onGetGeocode() {
       console.log("ok");
+      const requsest = {
+        query:
+          formData.userPref +
+          formData.userAddr +
+          formData.userAddr2 +
+          formData.userBld,
+      };
+      console.log(requsest);
+      const geocorder = new Y.GeoCoder();
+      geocorder.excute();
     }
     // googleMapの表示
     function onGoogleMapView() {
