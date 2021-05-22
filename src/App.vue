@@ -60,6 +60,9 @@
     <button @click="onGoogleMapView()">
       入力した住所のGoogleMapを表示する
     </button>
+    <button @click="onGoogleMapStreetView()">
+      入力した住所のStreetViewを表示する
+    </button>
   </div>
   <HelloWorld msg="Get GoogleMap StreetView" />
 </template>
@@ -68,6 +71,7 @@
 import HelloWorld from "./components/HelloWorld.vue";
 import { defineComponent } from "vue";
 import { reactive } from "@vue/reactivity";
+import axios from "axios";
 
 export default defineComponent({
   name: "App",
@@ -88,19 +92,39 @@ export default defineComponent({
         "https://map.yahooapis.jp/geocode/V1/geoCoder?output=json&recursive=true&appid=",
     });
 
+    const getData = reactive({
+      set: "",
+      // 緯度
+      lat: "",
+      // 経度
+      long: "",
+    });
+
     // 入力した住所データを、緯度、軽度に変換する
     function onGetGeocode() {
       console.log("ok");
-      const requsest = {
+      const request = {
         query:
           formData.userPref +
           formData.userAddr +
           formData.userAddr2 +
           formData.userBld,
       };
-      console.log(requsest);
-      const geocorder = new Y.GeoCoder();
-      geocorder.excute();
+      console.log(request);
+      const setUrl = apiData.url + apiData.apiKey + "&query=" + request.query;
+      console.log(setUrl);
+      axios
+        .get(setUrl)
+        .then((response) => {
+          const res = response.data.Feature[0].Geometry.Coordinates;
+          let resultArray = res.split(",");
+          console.log(resultArray);
+          getData.set = resultArray;
+          console.log(getData.set);
+          getData.long = getData.set[0];
+          getData.lat = getData.set[1];
+        })
+        .catch((err) => console.log(err));
     }
     // googleMapの表示
     function onGoogleMapView() {
@@ -118,10 +142,18 @@ export default defineComponent({
     //googlemapStreetViewの表示
     function onGoogleMapStreetView() {
       console.log("streetview: ok");
+      window.open(
+        `https://www.google.com/maps/@?api=1&map_action=pano&parameters&viewpoint=${
+          getData.lat + "," + getData.long
+        }`,
+        "_blank"
+      );
     }
     return {
       //データ
       formData,
+      apiData,
+      getData,
       //関数
       onGetGeocode,
       onGoogleMapView,
