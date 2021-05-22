@@ -5,7 +5,7 @@ export default {
   zipcloud: async function searchAddress(zipcode) {
     console.log(zipcode);
     return axios
-      .get("http://zipcloud.ibsnet.co.jp/api/search", {
+      .get("https://zipcloud.ibsnet.co.jp/api/search", {
         params: { zipcode },
         adapter: axiosJsonpAdapter,
       })
