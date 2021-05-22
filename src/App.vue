@@ -1,5 +1,5 @@
 <template>
-  <form action="">
+  <form>
     <div>
       <label for="userPref">
         都道府県：
@@ -25,13 +25,30 @@
       </label>
     </div>
   </form>
-  <button @click="onGeocode">GetGeoCode</button>
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <button @click="onGetGeocode">GetGeoCode</button>
+
+  <div>
+    都道府県：
+    <p>{{ formData.userPref }}</p>
+  </div>
+  <div>
+    市・区・町村：
+    <p>{{ formData.userAddr }}</p>
+  </div>
+  <div>
+    番地：
+    <p>{{ formData.userAddr2 }}</p>
+  </div>
+  <div>
+    建物名：
+    <p>{{ formData.userBld }}</p>
+  </div>
+  <HelloWorld msg="Get GoogleMap StreetView" />
 </template>
 
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from "vue";
 import { reactive } from "@vue/reactivity";
 
 export default defineComponent({
@@ -47,8 +64,15 @@ export default defineComponent({
       userBld: "",
     });
 
+    function onGetGeocode() {
+      console.log("ok");
+    }
+
     return {
+      //データ
       formData,
+      //関数
+      onGetGeocode,
     };
   },
 });
