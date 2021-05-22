@@ -3,25 +3,25 @@
     <div>
       <label for="userPref">
         都道府県：
-        <input name="userPref" type="text" v-model="userPref" />
+        <input name="userPref" type="text" v-model="formData.userPref" />
       </label>
     </div>
     <div>
       <label for="userAddr">
         市・区・町村：
-        <input name="userAddr" type="text" v-model="userAddr" />
+        <input name="userAddr" type="text" v-model="formData.userAddr" />
       </label>
     </div>
     <div>
       <label for="userAddr2">
         番地：
-        <input name="userAddr2" type="text" v-model="userAddr2" />
+        <input name="userAddr2" type="text" v-model="formData.userAddr2" />
       </label>
     </div>
     <div>
       <label for="userBld">
         建物名：
-        <input name="userBld" type="text" v-model="userBld" />
+        <input name="userBld" type="text" v-model="formData.userBld" />
       </label>
     </div>
   </form>
@@ -31,13 +31,27 @@
 
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
+import { defineComponent } from "@vue/composition-api";
+import { reactive } from "@vue/reactivity";
 
-export default {
+export default defineComponent({
   name: "App",
   components: {
     HelloWorld,
   },
-};
+  setup() {
+    const formData = reactive({
+      userPref: "",
+      userAddr: "",
+      userAddr2: "",
+      userBld: "",
+    });
+
+    return {
+      formData,
+    };
+  },
+});
 </script>
 
 <style>
