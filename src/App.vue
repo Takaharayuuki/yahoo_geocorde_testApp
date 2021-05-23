@@ -151,22 +151,14 @@ export default defineComponent({
             formData.userAddr2 +
             formData.userBld,
         };
-        console.log(request);
         const setUrl = apiData.url + apiData.apiKey + "&query=" + request.query;
-        console.log(setUrl);
-        axios
-          .get(setUrl)
-          .then((response) => {
-            isGet.value = false;
-            const res = response.data.Feature[0].Geometry.Coordinates;
-            let resultArray = res.split(",");
-            console.log(resultArray);
-            getData.set = resultArray;
-            console.log(getData.set);
-            getData.long = getData.set[0];
-            getData.lat = getData.set[1];
-          })
-          .catch((err) => console.log(err));
+        api.external.yahooGeoCoder(setUrl).then((data) => {
+          isGet.value = false;
+          let resultArray = data.split(",");
+          getData.set = resultArray;
+          getData.long = getData.set[0];
+          getData.lat = getData.set[1];
+        });
       } else {
         alert("必須項目を入力してください");
       }
