@@ -101,9 +101,7 @@
 
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
-import { defineComponent, ref } from "vue";
-import { reactive } from "@vue/reactivity";
-import axios from "axios";
+import { defineComponent, ref, reactive, computed } from "vue";
 import { prefectureOptions } from "./data/index";
 import api from "./api/index";
 
@@ -144,8 +142,11 @@ export default defineComponent({
         formData.userAddr !== "" &&
         formData.userAddr2 !== ""
       ) {
+        const setZip = formData.userZip.replace("-", "");
+        console.log(setZip);
         const request = {
           query:
+            setZip +
             formData.userPref +
             formData.userAddr +
             formData.userAddr2 +
