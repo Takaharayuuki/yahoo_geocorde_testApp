@@ -143,7 +143,6 @@ export default defineComponent({
         formData.userAddr2 !== ""
       ) {
         const setZip = formData.userZip.replace("-", "");
-        console.log(setZip);
         const request = {
           query:
             setZip +
@@ -166,7 +165,6 @@ export default defineComponent({
     }
     // googleMapの表示
     function onGoogleMapView() {
-      console.log("Mapview: ok");
       window.open(
         `https://www.google.com/maps/search/?api=1&query=${
           formData.userPref +
@@ -179,7 +177,6 @@ export default defineComponent({
     }
     //googlemapStreetViewの表示
     function onGoogleMapStreetView() {
-      console.log("streetview: ok");
       window.open(
         `https://www.google.com/maps/@?api=1&map_action=pano&parameters&viewpoint=${
           getData.lat + "," + getData.long
@@ -189,11 +186,9 @@ export default defineComponent({
     }
     /* 郵便番号から住所を自動入力 */
     function onSearchAddress() {
-      console.log("ok");
       api.external
         .zipcloud(formData.userZip)
         .then((data) => {
-          console.log(data);
           formData.userPref = data.address1;
           formData.userAddr = data.address2 + data.address3;
         })
