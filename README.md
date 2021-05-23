@@ -17,6 +17,9 @@ https://cr-vue.mio3io.com/tutorials/netlify.html#netlify-%E3%81%A8%E3%81%AF%EF%B
 https://docs.netlify.com/configure-builds/environment-variables/?_ga=2.183326118.1636900594.1621681337-2001869349.1621681337  
 - CORSエラー対処参考  
 https://qiita.com/sohhprog/items/845cfa02f87111653bb2  
+- Vue3 Filter機能の廃止に伴う代替案  
+https://qiita.com/ryo2132/items/3d0379e85c38a9a5b355  
+https://github.com/vuejs/rfcs/blob/master/active-rfcs/0015-remove-filters.md#alternatives
 ## Project setup
 ```
 npm install
